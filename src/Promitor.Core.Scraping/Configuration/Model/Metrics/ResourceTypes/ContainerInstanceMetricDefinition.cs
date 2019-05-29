@@ -1,8 +1,17 @@
-﻿namespace Promitor.Core.Scraping.Configuration.Model.Metrics.ResourceTypes
+﻿using Promitor.Core.Scraping.Configuration.Model.Metrics.Interfaces;
+
+namespace Promitor.Core.Scraping.Configuration.Model.Metrics.ResourceTypes
 {
-    public class ContainerInstanceMetricDefinition : MetricDefinition
+    public class ContainerInstanceMetricDefinition : IResourceMetricDefinition
     {
+        /// <summary>
+        ///     Container Group
+        /// </summary>
         public string ContainerGroup { get; set; }
-        public override ResourceType ResourceType { get; } = ResourceType.ContainerInstance;
+
+        /// <summary>
+        ///     Type of resource that is configured
+        /// </summary>
+        public ResourceType ResourceType { get; } = ResourceType.ContainerInstance;
     }
 }

@@ -4,11 +4,18 @@ namespace Promitor.Core.Scraping.Configuration.Model.Metrics
 {
     public class Secret
     {
+        /// <summary>
+        ///     Raw value of the secret
+        /// </summary>
         public string RawValue { get; set; }
+
+        /// <summary>
+        ///     Name of the environment variable that contains the secret
+        /// </summary>
         public string EnvironmentVariable { get; set; }
 
         /// <summary>
-        /// Provides the secret value based on the configured approach
+        ///     Provides the secret value based on the configured approach
         /// </summary>
         public string GetSecretValue()
         {
@@ -18,12 +25,7 @@ namespace Promitor.Core.Scraping.Configuration.Model.Metrics
                 return secretValue;
             }
 
-            if (string.IsNullOrWhiteSpace(RawValue) == false)
-            {
-                return RawValue;
-            }
-
-            return string.Empty;
+            return string.IsNullOrWhiteSpace(RawValue) == false ? RawValue : string.Empty;
         }
     }
 }

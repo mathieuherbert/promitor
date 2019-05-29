@@ -1,9 +1,17 @@
-﻿namespace Promitor.Core.Scraping.Configuration.Model.Metrics.ResourceTypes
+﻿using Promitor.Core.Scraping.Configuration.Model.Metrics.Interfaces;
+
+namespace Promitor.Core.Scraping.Configuration.Model.Metrics.ResourceTypes
 {
-    public class CosmosDbMetricDefinition : MetricDefinition
+    public class CosmosDbMetricDefinition : IResourceMetricDefinition
     {
+        /// <summary>
+        ///     Name of the Azure Cosmos Db instance
+        /// </summary>
         public string DbName { get; set; }
 
-        public override ResourceType ResourceType { get; } = ResourceType.CosmosDb;
+        /// <summary>
+        ///     Type of resource that is configured
+        /// </summary>
+        public ResourceType ResourceType { get; } = ResourceType.CosmosDb;
     }
 }

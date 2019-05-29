@@ -1,6 +1,9 @@
-﻿namespace Promitor.Core.Scraping.Configuration.Model.Metrics
+﻿using System.Collections.Generic;
+using Promitor.Core.Scraping.Configuration.Model.Metrics.Interfaces;
+
+namespace Promitor.Core.Scraping.Configuration.Model.Metrics
 {
-    public abstract class MetricDefinition
+    public class MetricDefinition
     {
         /// <summary>
         ///     Configuration about the Azure Monitor metric to scrape
@@ -24,9 +27,9 @@
         public string ResourceGroupName { get; set; }
 
         /// <summary>
-        ///     Type of resource that is configured
+        ///     Resources to scrape
         /// </summary>
-        public abstract ResourceType ResourceType { get; }
+        public List<IResourceMetricDefinition> Resources { get; set; } = new List<IResourceMetricDefinition>();
 
         /// <summary>
         /// Gets or sets the scraping model.
