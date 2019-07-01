@@ -51,9 +51,11 @@ namespace Promitor.Integrations.AzureMonitor.RequestHandlers
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var response = await base.SendAsync(request, cancellationToken);
-
+            var isDebug = false;
             MeasureArmRateLimiting(response);
-
+            if (isDebug == true) { 
+            var body = await response.Content.ReadAsStringAsync();
+            }
             if ((int) response.StatusCode == 429)
                 LogArmThrottling();
 

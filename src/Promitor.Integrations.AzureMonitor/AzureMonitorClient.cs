@@ -18,6 +18,7 @@ namespace Promitor.Integrations.AzureMonitor
     public class AzureMonitorClient
     {
         private readonly ILogger _logger;
+        private readonly IResourceManager _resourceManager;
         private readonly IAzure _authenticatedAzureSubscription;
         private readonly AzureCredentialsFactory _azureCredentialsFactory = new AzureCredentialsFactory();
 
@@ -41,6 +42,7 @@ namespace Promitor.Integrations.AzureMonitor
 
             var monitorHandler = new AzureResourceManagerThrottlingRequestHandler(tenantId, subscriptionId, applicationId, runtimeMetricsCollector, logger);
             _authenticatedAzureSubscription = Azure.Configure().WithDelegatingHandler(monitorHandler).Authenticate(credentials).WithSubscription(subscriptionId);
+            _resourceManager = ResourceManager.Configure().WithDelegatingHandlers(monitorHandler).Authenticate(credentials).WithSubscription(subscriptionId);
             _logger = logger;
         }
 
@@ -67,6 +69,20 @@ namespace Promitor.Integrations.AzureMonitor
                 throw new MetricNotFoundException(metricName);
             }
 
+            try
+            {
+
+                var f = _authenticatedAzureSubscription.ServiceBusNamespaces.GetById(resourceId);
+                var rgs = await _resourceManager.ResourceGroups.ListAsync();
+                var rg = rgs.First();
+                var t = _resourceManager.GenericResources.GetById(resourceId);
+                //var t = await _resourceManager.GenericResources.GetByIdAsync(resourceId);
+                var tags = t.Tags;
+            }
+            catch (Exception ex)
+            {
+
+            }
             var recordDateTime = DateTime.UtcNow;
 
             var closestAggregationInterval = DetermineAggregationInterval(metricName, aggregationInterval, metricDefinition.MetricAvailabilities);
